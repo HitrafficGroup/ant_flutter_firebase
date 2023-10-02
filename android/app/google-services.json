@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "331861830901",
+    "project_id": "ant-multas-app",
+    "storage_bucket": "ant-multas-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:331861830901:android:fb63b2563e450b1ab069bc",
+        "android_client_info": {
+          "package_name": "com.example.firebase_plate_detector"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCh9YMY3nEEFwVd-5iw2cTw5cXZw7Z7vQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
