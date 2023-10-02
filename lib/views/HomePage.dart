@@ -7,6 +7,8 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'dart:io';
 import 'package:firebase_plate_detector/firebase_service.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 
 class HomePage extends StatefulWidget {
@@ -20,8 +22,9 @@ class MyArguments {
   final String placa;
 
   File? imagen;
+  Map<String, dynamic> car_data;
 
-  MyArguments(this.placa, this.imagen);
+  MyArguments(this.placa, this.imagen,this.car_data);
 }
 
 
@@ -126,9 +129,11 @@ class _HomePageState extends State<HomePage> {
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
               child: const Text('Continuar'),
-              onPressed: () {
+              onPressed: () async{
+                String result = myController.text.replaceAll('-', '');
+                final apiData = await fetchData(result);
                 Navigator.of(context).pop();
-                Navigator.pushNamed(context, "/report", arguments: MyArguments(myController.text, carFoto));
+                Navigator.pushNamed(context, "/report", arguments: MyArguments(myController.text, carFoto,apiData));
               },
             ),
             TextButton(
@@ -180,6 +185,19 @@ class _HomePageState extends State<HomePage> {
       }
 
   }
+  Future<Map<String, dynamic>> fetchData(String param1) async {
+    final response = await http.get(Uri.parse('http://3.146.178.204:3000/data_ant?placa=$param1'));
+
+    if (response.statusCode == 200) {
+      // Si la solicitud es exitosa (código de estado 200), analiza la respuesta JSON.
+      final Map<String, dynamic> data = json.decode(response.body);
+      return data;
+    } else {
+      // Si la solicitud falla, puedes manejar el error aquí.
+      throw Exception('Error en la solicitud: ${response.statusCode}');
+    }
+  }
+
 
 
 }

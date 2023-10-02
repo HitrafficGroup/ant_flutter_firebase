@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 class CardPendiente extends StatelessWidget {
-  const CardPendiente({super.key});
-
+  final String matricula;
+  final String url_image;
+  const CardPendiente({super.key, required this.url_image, required this.matricula });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,9 +16,12 @@ class CardPendiente extends StatelessWidget {
               height: 110,
               width: 110,
               decoration: BoxDecoration(
-                color: Colors.black,
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))
-              ),
+                  color: Colors.black,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                image: DecorationImage(
+                  image: NetworkImage(url_image), fit: BoxFit.cover,
+                )
+                ),
             ),
             Expanded(
                 child: Container(
@@ -82,7 +86,7 @@ class CardPendiente extends StatelessWidget {
                           padding: const EdgeInsets.only( left: 8.0, right: 8.0),
                           child: Row(
                             children: [
-                              Expanded(child: Text("LBA-2312")),
+                              Expanded(child: Text(matricula)),
                               Container(
                                 width: 2,
                                 height: 10,

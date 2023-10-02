@@ -16,13 +16,14 @@ class _ReportPageState extends State<ReportPage> {
   @override
   Widget build(BuildContext context) {
     final  args = ModalRoute.of(context)!.settings.arguments as MyArguments;
+
     return  Scaffold(
       appBar: AppBar(
         title: const Text('Reportes'),
       ),
       body: ListView(
         children:<Widget> [
-          CardReport(car_image: args.imagen!,matricula: args.placa),
+          CardReport(car_image: args.imagen!,matricula: args.placa ,datos_vehiculo: args.car_data ),
           Padding(
             padding: const EdgeInsets.only(left: 32.0,right: 32.0,top: 16.0),
             child: SizedBox(
@@ -54,16 +55,19 @@ class _ReportPageState extends State<ReportPage> {
                 showDialog(context: context, builder: (context){
                   return Center(child: CircularProgressIndicator());
                 });
-
+                final data2 =  args.car_data;
                 final reportData = <String, dynamic>{
-                  "marca": "hyundai",
-                  "color": "rojo",
-                  "year": "juan@example.com",
-                  "tipo":"camioneta doble cabina",
-                  "servicio":"transporte",
-                  "observaciones": myController.text
+                  "marca": data2['marca'],
+                  "color": data2['color'],
+                  "year":  data2['year'],
+                  "tipo":  data2['tipo'],
+                  "descripcion":data2['descripcion'],
+                  "servicio":data2['servicio'],
+                  "timer": DateTime.now(),
+                  "placa":args.placa,
+                  "observaciones": myController.text,
                 };
-                await agregarReporte(reportData);
+                await agregarReporte(reportData,args.imagen!);
                 Navigator.of(context).pop();
                 Navigator.pushNamed(context, "/home");
               },

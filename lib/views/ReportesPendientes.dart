@@ -42,7 +42,10 @@ class FirestoreListView extends StatelessWidget {
               final document = documents[index];
               // Aquí puedes acceder a los campos de tu documento y mostrarlos en un Text.
               final texto = "data";
-              return CardPendiente();
+              return CardPendiente(
+                url_image: document['url_imagen'],
+                matricula: document['placa'],
+              );
             },
           );
         }

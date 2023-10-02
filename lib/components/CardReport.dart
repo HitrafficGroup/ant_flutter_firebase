@@ -6,7 +6,8 @@ import 'dart:io';
 class CardReport extends StatelessWidget {
   final File car_image ;
   final String matricula ;
-  const CardReport({super.key, required this.car_image, required this.matricula });
+  final Map<String,dynamic> datos_vehiculo ;
+  const CardReport({super.key, required this.car_image, required this.matricula,required this.datos_vehiculo });
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,7 @@ class CardReport extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Text('Hyundai',
+                  Text(datos_vehiculo['marca'],
                     style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -96,7 +97,7 @@ class CardReport extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Text('Rojo',
+                  Text(datos_vehiculo['color'],
                     style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -118,7 +119,7 @@ class CardReport extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Text('2013',
+                  Text(datos_vehiculo['year'],
                     style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
@@ -142,7 +143,7 @@ class CardReport extends StatelessWidget {
                   Spacer(),
                   Expanded(
                     child: Text(
-                      'Camioneta 4x2 doble cabina diesel',
+                      datos_vehiculo['descripcion'],
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                       textDirection: TextDirection.rtl,
@@ -169,7 +170,7 @@ class CardReport extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Text('Transporte',
+                  Text(datos_vehiculo['servicio'],
                     style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
