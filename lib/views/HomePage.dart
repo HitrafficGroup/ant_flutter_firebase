@@ -20,7 +20,6 @@ class HomePage extends StatefulWidget {
 
 class MyArguments {
   final String placa;
-
   File? imagen;
   Map<String, dynamic> car_data;
 

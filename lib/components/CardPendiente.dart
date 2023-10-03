@@ -3,7 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 class CardPendiente extends StatelessWidget {
   final String matricula;
   final String url_image;
-  const CardPendiente({super.key, required this.url_image, required this.matricula });
+  final String marca;
+  final String tipo;
+  final String timer;
+
+  const CardPendiente({super.key, required this.url_image, required this.matricula,required this.marca,required this.tipo,required this.timer });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -55,7 +59,7 @@ class CardPendiente extends StatelessWidget {
                           padding: const EdgeInsets.only( left: 8.0, right: 8.0),
                           child: Row(
                             children: <Widget>[Text(
-                              'Hyundai',
+                              marca,
                               style: GoogleFonts.inter(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -70,14 +74,18 @@ class CardPendiente extends StatelessWidget {
                           padding: const EdgeInsets.only( left: 8.0, right: 8.0),
                           child: Row(
                             children: [
-                              Text(
-                                'Doble Cabina 4x4',
-                                textAlign: TextAlign.left,
-                                style: GoogleFonts.inter(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w800,
-                                    color: Colors.black,
-                                )
+                              Expanded(
+                                child: Text(
+                                   tipo,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.left,
+                                  style: GoogleFonts.inter(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w800,
+                                      color: Colors.black,
+                                  )
+                                ),
                               ),
                             ],
                           ),
@@ -94,7 +102,7 @@ class CardPendiente extends StatelessWidget {
                                   color: Colors.black
                                 ),
                               ),
-                              Expanded(child: Text("10:32am", textAlign: TextAlign.right )),
+                              Expanded(child: Text(timer, textAlign: TextAlign.right )),
                             ],
                           ),
                         )

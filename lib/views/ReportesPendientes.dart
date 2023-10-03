@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_plate_detector/components/CardPendiente.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_plate_detector/firebase_service.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 class ReportesPendientes extends StatefulWidget {
@@ -40,11 +39,20 @@ class FirestoreListView extends StatelessWidget {
             itemCount: documents.length,
             itemBuilder: (context, index) {
               final document = documents[index];
+
+              DateTime dateTime = document['timer'].toDate();
+              int hour = dateTime.hour;
+              int minute = dateTime.minute;
+              int second = dateTime.second;
+              final custom_time = '$hour:$minute:$second';
               // Aquí puedes acceder a los campos de tu documento y mostrarlos en un Text.
-              final texto = "data";
+
               return CardPendiente(
                 url_image: document['url_imagen'],
                 matricula: document['placa'],
+                marca:document['marca'] ,
+                timer: custom_time,
+                tipo: document['tipo'],
               );
             },
           );
