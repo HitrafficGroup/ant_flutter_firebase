@@ -10,6 +10,10 @@ class ReportesPendientes extends StatefulWidget {
   @override
   State<ReportesPendientes> createState() => _ReportesPendientesState();
 }
+class MyVehicle {
+  DocumentSnapshot carData;
+  MyVehicle(this.carData);
+}
 
 class _ReportesPendientesState extends State<ReportesPendientes> {
   late Timer timer;
@@ -100,6 +104,10 @@ class FirestoreListView extends StatelessWidget {
                 timer: custom_time,
                 tipo: document['tipo'],
                 note: document['note'],
+                onPress: (){
+                  //Navigator.pushNamed(context, "/vehicle_report");
+                 Navigator.pushNamed(context, "/vehicle_report", arguments: MyVehicle(document));
+                },
               );
             },
           );

@@ -6,7 +6,6 @@ import 'package:firebase_plate_detector/components/MenuBtn.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'dart:io';
-import 'package:firebase_plate_detector/firebase_service.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -101,9 +100,11 @@ class _HomePageState extends State<HomePage> {
             ),
             SizedBox(height: 18),
             MenuBtn(title: "Reportes Realizados",customIcon: Icons.assignment_turned_in,
-                onPress: (){agregarDatos();}
+                onPress: (){Navigator.pushNamed(context, "/realizados");
+
+                }
             ),
-            Text("v1.1")
+
 
           ],
         ),

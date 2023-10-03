@@ -1,4 +1,6 @@
 import 'package:firebase_plate_detector/views/ReportesPendientes.dart';
+import 'package:firebase_plate_detector/views/ReportesRealizados.dart';
+import 'package:firebase_plate_detector/views/VehicleReport.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_plate_detector/views/HomePage.dart';
 import 'package:firebase_plate_detector/views/LoginPage.dart';
@@ -28,7 +30,9 @@ class MyApp extends StatelessWidget {
         '/':(context) => LoginPage(),
         '/home':(context) => HomePage(),
         '/report':(context) => ReportPage(),
-        '/pendientes':(context) => ReportesPendientes()
+        '/pendientes':(context) => ReportesPendientes(),
+        '/realizados':(context) => ReportesRealizados(),
+        '/vehicle_report':(context) => VehicleReport(),
       },
     );
   }
