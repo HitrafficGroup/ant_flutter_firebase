@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:io';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path/path.dart';
+import 'package:uuid/uuid.dart';
+
 FirebaseFirestore db = FirebaseFirestore.instance;
 final storageRef = FirebaseStorage.instance.ref();
 Future<void> agregarDatos() async{
@@ -23,7 +25,26 @@ Future<void> agregarReporte(Map<String,dynamic> DatosReporte,File imagen_vehicul
 
  final url = await uploadImageToFirebaseStorage(imagen_vehiculo);
  DatosReporte['url_imagen'] = url;
- await db.collection("reportes").add(DatosReporte);
+ var uuid = Uuid();
+ var v4 = uuid.v4();
+ DatosReporte['id'] = v4;
+ await db.collection("reportes").doc(v4).set(DatosReporte);
+}
+Future<List<Map<String,dynamic>>> leerReportesPendientes()async{
+  List<Map<String, dynamic>> dataReportes = [];
+  await db.collection("reportes").get().then(
+        (querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          final dataMap = docSnapshot.data() as Map<String, dynamic>;
+          if(dataMap['note']<4){
+            dataReportes.add(dataMap);
+          }
+
+        }
+    },
+    onError: (e) => print("Error completing: $e"),
+  );
+  return dataReportes;
 }
 
 Future<String> uploadImageToFirebaseStorage(File file) async {

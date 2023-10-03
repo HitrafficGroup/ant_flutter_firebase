@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_plate_detector/components/CardPendiente.dart';
+import 'package:firebase_plate_detector/firebase_service.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 
 class ReportesPendientes extends StatefulWidget {
@@ -25,10 +25,41 @@ class _ReportesPendientesState extends State<ReportesPendientes> {
   @override
   void initState() {
     super.initState();
-    // Iniciar el temporizador que aumenta el contador cada segundo
+    procesarReportes();
+    // Iniciar el temporizador que ejecuta la funcion que se encuentre dentro
     timer = Timer.periodic(Duration(seconds: 70), (timer) {
-      print("este mensaje se actualizara cada 3 segundos");
+      procesarReportes();
     });
+  }
+  void procesarReportes() async{
+    final  List<Map<String,dynamic>> dataReports = await leerReportesPendientes() as List<Map<String, dynamic>>;
+    Timestamp timestamp = Timestamp.fromDate(DateTime.now());
+    DateTime currentDate = timestamp.toDate();
+      for (int i = 0; i < dataReports.length; i++) {
+        Map<String, dynamic> _data = dataReports[i];
+        final DateTime fecha = _data['timer'].toDate();
+        if(fecha.day == currentDate.day ){
+            if(fecha.hour == currentDate.hour){
+
+                final delta_time = currentDate.minute - fecha.minute;
+                if(delta_time <= 3){
+                  print("note = 0");
+                  db.collection("reportes").doc(_data['id']).update({"note": 0});
+                }else if(delta_time > 3 && delta_time <=5){
+                  print("note = 1");
+                  db.collection("reportes").doc(_data['id']).update({"note": 1});
+                }else if(delta_time > 5 && delta_time <=7){
+                  db.collection("reportes").doc(_data['id']).update({"note": 2});
+                }else {
+                  print("note = 4");
+                  db.collection("reportes").doc(_data['id']).update({"note": 4});
+                }
+            }else{
+              print("no estan en la misma hora");
+            }
+        }
+
+      }
   }
   @override
   void dispose() {
