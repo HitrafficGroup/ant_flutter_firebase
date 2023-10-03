@@ -6,8 +6,8 @@ class CardPendiente extends StatelessWidget {
   final String marca;
   final String tipo;
   final String timer;
-
-  const CardPendiente({super.key, required this.url_image, required this.matricula,required this.marca,required this.tipo,required this.timer });
+  final int note;
+  const CardPendiente({super.key, required this.url_image, required this.matricula,required this.marca,required this.tipo,required this.timer, required this.note });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -38,8 +38,10 @@ class CardPendiente extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only( left: 8.0, right: 8.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [Container(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              NoteText(note: note),
+                              Container(
                               child: Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: Icon(
@@ -127,3 +129,34 @@ class CardPendiente extends StatelessWidget {
     );
   }
 }
+class NoteText extends StatelessWidget {
+  final int note;
+  const NoteText({super.key,required this.note});
+  @override
+  Widget build(BuildContext context) {
+    if(note == 0){
+      return const Text("+7 min",
+      style: TextStyle(
+        color: Colors.lightGreen,
+      ),);
+    }else if( note ==1){
+      return const Text("+5 min",
+        style: TextStyle(
+          color: Colors.amber,
+        ),);
+    }else if( note ==2){
+      return const Text("+2 min",
+        style: TextStyle(
+          color: Colors.red,
+        ),);
+    } else{
+      return const Text("PROCESAR",
+        style: TextStyle(
+          color: Colors.redAccent,
+          fontWeight: FontWeight.bold,
+        ),);
+    }
+
+  }
+}
+

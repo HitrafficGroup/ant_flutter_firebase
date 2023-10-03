@@ -64,6 +64,8 @@ class _ReportPageState extends State<ReportPage> {
                   "descripcion":data2['descripcion'],
                   "servicio":data2['servicio'],
                   "timer": DateTime.now(),
+                  "status":true,
+                  "note":0,
                   "placa":args.placa,
                   "observaciones": myController.text,
                 };

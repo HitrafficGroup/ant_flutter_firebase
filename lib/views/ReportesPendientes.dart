@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_plate_detector/components/CardPendiente.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'dart:async';
 
 class ReportesPendientes extends StatefulWidget {
   const ReportesPendientes({super.key});
@@ -12,6 +12,7 @@ class ReportesPendientes extends StatefulWidget {
 }
 
 class _ReportesPendientesState extends State<ReportesPendientes> {
+  late Timer timer;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +21,20 @@ class _ReportesPendientesState extends State<ReportesPendientes> {
       ),
       body: FirestoreListView()
     );
+  }
+  @override
+  void initState() {
+    super.initState();
+    // Iniciar el temporizador que aumenta el contador cada segundo
+    timer = Timer.periodic(Duration(seconds: 70), (timer) {
+      print("este mensaje se actualizara cada 3 segundos");
+    });
+  }
+  @override
+  void dispose() {
+    // Detener el temporizador cuando se deshaga del widget
+    timer.cancel();
+    super.dispose();
   }
 }
 
@@ -53,6 +68,7 @@ class FirestoreListView extends StatelessWidget {
                 marca:document['marca'] ,
                 timer: custom_time,
                 tipo: document['tipo'],
+                note: document['note'],
               );
             },
           );
@@ -60,4 +76,5 @@ class FirestoreListView extends StatelessWidget {
       },
     );
   }
+
 }
