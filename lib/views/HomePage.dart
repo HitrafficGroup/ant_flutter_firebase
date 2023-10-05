@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(67.5),
                 color: Colors.white54,
                 image:  DecorationImage(
-                  image: ExactAssetImage('assets/profile.jpg'),
+                  image: AssetImage('assets/profile.jpg'),
                   fit: BoxFit.fitWidth,
                   ),
                   border: Border.all(

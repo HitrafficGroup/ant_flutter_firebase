@@ -2,12 +2,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_plate_detector/views/ReportesPendientes.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:firebase_plate_detector/firebase_service.dart';
 class VehicleReport extends StatefulWidget {
   const VehicleReport({super.key});
   @override
   State<VehicleReport> createState() => _VehicleReportState();
 }
 class _VehicleReportState extends State<VehicleReport> {
+  final tipo = TextEditingController();
+  final observaciones = TextEditingController();
   @override
   Widget build(BuildContext context) {
     final  args = ModalRoute.of(context)!.settings.arguments as MyVehicle;
@@ -15,10 +18,56 @@ class _VehicleReportState extends State<VehicleReport> {
         appBar: AppBar(
           title: Text("Reportar al Vehiculo"),
         ),
-        body: Column(
+        body: ListView(
           children: [
             SizedBox( height: 20, width: double.infinity),
-            CardReport(datos_vehiculo: args.carData)
+            CardReport(datos_vehiculo: args.carData),
+            Padding(
+              padding: const EdgeInsets.only(left: 32,right: 32,top: 16),
+              child: TextField(
+                controller: tipo,
+
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Tipo de Multa',
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 32,right: 32,top: 16),
+              child: TextField(
+                controller: observaciones,
+
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Observaciones',
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.only(left: 32,right: 32),
+              child: ElevatedButton(onPressed: () async{
+                showDialog(context: context, builder: (context){
+                  return Center(child: CircularProgressIndicator());
+                });
+                final  Map<String, dynamic> aux_data = args.carData.data() as Map<String, dynamic>;
+                  aux_data['tipo'] = tipo.text;
+                  aux_data['observaciones'] = observaciones.text;
+                  aux_data['status'] = false;
+                  await db.collection("reportes").doc(aux_data['id']).update({"status": false});
+                  await agregarMulta(aux_data);
+                  aux_data.forEach((clave, valor) {
+                    print('$clave: $valor');
+                  });
+
+                Navigator.of(context).pop();
+                Navigator.pushNamed(context, "/home");
+              }, child: Text("Cargar Reporte")),
+            ),
+            SizedBox(height: 10)
+
           ],
         ),
     );
@@ -50,9 +99,10 @@ class CardReport extends StatelessWidget {
               width: 135,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(67.5),
+                image: DecorationImage(
+                    image: NetworkImage(datos_vehiculo['url_imagen']),
+                    fit: BoxFit.cover),
                 color: Colors.white54,
-
-
                 boxShadow:  [
                   BoxShadow(
                     color:  Color(0x3f000000),
@@ -65,7 +115,7 @@ class CardReport extends StatelessWidget {
             ),
             SizedBox(height: 25),
             Text(
-              datos_vehiculo['color'],
+              datos_vehiculo['placa'],
               style: GoogleFonts.inter(
                   fontSize: 30,
                   fontWeight: FontWeight.w600,
@@ -77,6 +127,7 @@ class CardReport extends StatelessWidget {
               child: Container(
                 height: 2,
                 decoration: BoxDecoration(
+
                     color: Color(0xFFCAC1C1)
                 ),
               ),
@@ -138,7 +189,7 @@ class CardReport extends StatelessWidget {
                     ),
                   ),
                   Spacer(),
-                  Text(datos_vehiculo['color'],
+                  Text(datos_vehiculo['year'],
                     style: GoogleFonts.inter(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,

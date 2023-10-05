@@ -59,8 +59,10 @@ class _ReportesPendientesState extends State<ReportesPendientes> {
                   db.collection("reportes").doc(_data['id']).update({"note": 4});
                 }
             }else{
-              print("no estan en la misma hora");
+              db.collection("reportes").doc(_data['id']).update({"note": 4});
             }
+        }else{
+          db.collection("reportes").doc(_data['id']).update({"note": 4});
         }
 
       }
@@ -85,10 +87,17 @@ class FirestoreListView extends StatelessWidget {
           return Text('Error: ${snapshot.error}');
         } else {
           final List<DocumentSnapshot> documents = snapshot.data!.docs;
+          final List<DocumentSnapshot> documentosFiltrados = documents.where((documento) {
+            // Accede al campo 'estado' en cada documento
+            final bool estado = documento['status'] ?? false; // Si el campo no existe, se asume como false
+
+            // Filtra los documentos con estado true
+            return estado == true;
+          }).toList();
           return ListView.builder(
-            itemCount: documents.length,
+            itemCount: documentosFiltrados.length,
             itemBuilder: (context, index) {
-              final document = documents[index];
+              final document = documentosFiltrados[index];
 
               DateTime dateTime = document['timer'].toDate();
               int hour = dateTime.hour;

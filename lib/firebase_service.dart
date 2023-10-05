@@ -30,6 +30,15 @@ Future<void> agregarReporte(Map<String,dynamic> DatosReporte,File imagen_vehicul
  DatosReporte['id'] = v4;
  await db.collection("reportes").doc(v4).set(DatosReporte);
 }
+
+Future<void> agregarMulta(Map<String,dynamic> DatosReporte)async{
+  print("send data");
+  var uuid = Uuid();
+  var v4 = uuid.v4();
+  DatosReporte['id'] = v4;
+  await db.collection("multas").doc(v4).set(DatosReporte);
+}
+
 Future<List<Map<String,dynamic>>> leerReportesPendientes()async{
   List<Map<String, dynamic>> dataReportes = [];
   await db.collection("reportes").get().then(
