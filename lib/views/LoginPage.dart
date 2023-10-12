@@ -20,15 +20,18 @@ class _LoginPageState extends State<LoginPage> {
             height: 5,
             width: double.infinity,
           ),
-          Container(
-            height: 155,
-            width: 155,
-          decoration: BoxDecoration(
-            image: new DecorationImage(
-              image: ExactAssetImage('assets/logo3.png'),
-              fit: BoxFit.fitHeight,
+          Padding(
+            padding: const EdgeInsets.only(top:100.0),
+            child: Container(
+              height: 255,
+              width: 255,
+            decoration: BoxDecoration(
+              image: new DecorationImage(
+                image: ExactAssetImage('assets/logo.png'),
+                fit: BoxFit.fitHeight,
+              ),
+            )
             ),
-          )
           ),
           Text(
             'Iniciar Sesion',
